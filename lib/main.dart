@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: "Gym Tracker",
       home: Scaffold(
         appBar: AppBar(title: const Text("Gym Tracker")),
-        body: const Center(child: Text("Hola Gym")),
+        body: const Center(child: Text("Hello Gym")),
       ),
     );
   }
