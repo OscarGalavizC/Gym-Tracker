@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/screens/catalog_screen.dart';
+import 'package:gym_tracker/screens/home_screen.dart';
+import 'package:gym_tracker/screens/progress_screen.dart';
 
 class RootNavScreen extends StatefulWidget {
   const RootNavScreen({super.key});
@@ -39,17 +42,9 @@ class _RootNavScreenState extends State<RootNavScreen> {
         ],
       ),
       body: <Widget>[
-        Card(
-          child: Text("Inicio"),
-        ),
-
-        Card(
-          child: Text("Catalogo"),
-        ),
-
-        Card(
-          child: Text("Progreso"),
-        ),
+        HomeScreen(),
+        CatalogScreen(),
+        ProgressScreen(),
       ][_selectedIndex]
     );
   }
