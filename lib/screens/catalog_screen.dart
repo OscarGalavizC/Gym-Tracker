@@ -8,13 +8,13 @@ class CatalogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Gym Tracker")),
+      appBar: AppBar(title: const Text("Catálogo")),
       body: ListView.builder(
         itemCount: sampleExercises.length,
         itemBuilder: (BuildContext context,int index) {
           return ListTile(
             title: Text(sampleExercises[index].name),
-            subtitle: Text(sampleExercises[index].muscles.map((pair) => '${pair.muscle} (${pair.role.name})').join(', ')),
+            subtitle: Text(sampleExercises[index].muscles.map((pair) => "${pair.muscle} (${pair.role == MuscleRole.primary ? 'primario' : 'secundario'})").join(', ')),
           );
         },
       ),
