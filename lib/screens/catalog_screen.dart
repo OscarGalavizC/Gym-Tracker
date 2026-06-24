@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/models/exercise.dart';
+import 'package:gym_tracker/models/models.dart';
 
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
