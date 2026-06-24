@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/data/session_repository.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final SessionRepository repository;
+  const HomeScreen({super.key, required this.repository});
 
 
   @override

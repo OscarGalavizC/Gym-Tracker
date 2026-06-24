@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/data/session_repository.dart';
 import 'package:gym_tracker/screens/catalog_screen.dart';
 import 'package:gym_tracker/screens/home_screen.dart';
 import 'package:gym_tracker/screens/progress_screen.dart';
 
 class RootNavScreen extends StatefulWidget {
-  const RootNavScreen({super.key});
+  final SessionRepository _repository;
+  const RootNavScreen({super.key, required this._repository});
   
   @override
   State<RootNavScreen> createState() => _RootNavScreenState();
@@ -12,9 +14,9 @@ class RootNavScreen extends StatefulWidget {
 
 class _RootNavScreenState extends State<RootNavScreen> {
   int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    final repository = widget._repository;
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -42,7 +44,7 @@ class _RootNavScreenState extends State<RootNavScreen> {
         ],
       ),
       body: <Widget>[
-        HomeScreen(),
+        HomeScreen(repository: repository),
         CatalogScreen(),
         ProgressScreen(),
       ][_selectedIndex]
