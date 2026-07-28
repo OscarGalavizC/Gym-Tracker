@@ -21,7 +21,7 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
         title: const Text("Nueva sesión"),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               List<ExerciseLog> exercises = [];
               for (var exercise in _selectedExercises) {
                 exercises.add(
@@ -32,7 +32,7 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
                 );
               }
 
-              widget.repository.addSession(
+              await widget.repository.addSession(
                 Session(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   date: DateTime.now(),
