@@ -15,8 +15,9 @@ class LogSessionScreen extends StatefulWidget {
 class _ExerciseDraft {
   final Exercise exercise;
   final List<SetEntry> sets = [];
+  final ExerciseLog? lastLog;
 
-  _ExerciseDraft({required this.exercise});
+  _ExerciseDraft({required this.exercise, this.lastLog});
 }
 
 class _LogSessionScreenState extends State<LogSessionScreen> {
@@ -74,8 +75,11 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
             ),
           );
           if (ejercicio != null) {
+            final lastLog = widget.repository.getLastPerformance(ejercicio.id);
             setState(() {
-              _selectedExercises.add(_ExerciseDraft(exercise: ejercicio));
+              _selectedExercises.add(
+                _ExerciseDraft(exercise: ejercicio, lastLog: lastLog),
+              );
             });
           }
         },
@@ -88,6 +92,29 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
             child: Column(
               children: [
                 Text(_selectedExercises[index].exercise.name),
+                Row(
+                  children: [
+                    Text(
+                      "Última sesión",
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    if (_selectedExercises[index].lastLog != null)
+                      Text(
+                        _selectedExercises[index].lastLog!.sets
+                            .map(
+                              (pair) =>
+                                  "Serie ${pair.setNumber}. Peso:${pair.weightKg} kg. Reps:${pair.reps}. RIR:${pair.rir}. Calentamiento? ${pair.isWarmup}.",
+                            )
+                            .join('\n'),
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                  ],
+                ),
+                Row(children: [Text("SESION ACTUAL:")]),
                 Row(
                   children: [
                     Text(
