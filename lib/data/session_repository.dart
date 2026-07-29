@@ -29,6 +29,39 @@ class SessionRepository {
     return _sessions;
   }
 
+  Map<String, double> weeklyVolume(List<Exercise> exercises) {
+    final Map<String, double> volumen = {};
+
+    final now = DateTime.now();
+    final weekStart = DateTime(
+      now.year,
+      now.month,
+      now.day - (now.weekday - 1),
+    );
+
+    for (var session in _sessions.where((s) => s.date.isAfter(weekStart))) {
+      for (var exerciseLog in session.exercises) {
+        final ejercicio = exercises.firstWhere(
+          (s) => s.id == exerciseLog.exerciseId,
+        );
+        for (var set in exerciseLog.sets) {
+          if (set.isWarmup == false) {
+            for (var muscle in ejercicio.muscles) {
+              if (muscle.role == MuscleRole.primary) {
+                volumen[muscle.muscle] = (volumen[muscle.muscle] ?? 0) + 1.0;
+              }
+              if (muscle.role == MuscleRole.secondary) {
+                volumen[muscle.muscle] = (volumen[muscle.muscle] ?? 0) + 0.5;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return volumen;
+  }
+
   ExerciseLog? getLastPerformance(String exerciseId) {
     for (var session in _sessions.reversed) {
       for (var log in session.exercises) {
