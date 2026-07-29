@@ -13,17 +13,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Session> get sesiones => widget.repository.getSessions();
+  Map<String, double> get volumen =>
+      widget.repository.weeklyVolume(sampleExercises);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Gym Tracker")),
-      body: ListView.builder(
-        itemCount: sesiones.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Sesion $index: \n DateTime: ${sesiones[index].date}'),
-          );
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ...sesiones
+                .map(
+                  (s) => ListTile(
+                    title: Text('Sesion ${s.id}: \n DateTime: ${s.date}'),
+                  ),
+                )
+                .toList(),
+            Text("Volumen de esta semana:"),
+            ...volumen.entries.map(
+              (m) => ListTile(title: Text('${m.key}: ${m.value} series')),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
