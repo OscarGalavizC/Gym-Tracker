@@ -5,6 +5,14 @@ class MuscleInvolvement {
   final MuscleRole role;
 
   const MuscleInvolvement({required this.muscle, required this.role});
+
+  Map<String, dynamic> toMap() => {'muscle': muscle, 'role': role.name};
+
+  factory MuscleInvolvement.fromMap(Map<String, dynamic> map) =>
+      MuscleInvolvement(
+        muscle: map['muscle'] as String,
+        role: MuscleRole.values.byName(map['role'] as String),
+      );
 }
 
 class Exercise {
@@ -13,6 +21,20 @@ class Exercise {
   final List<MuscleInvolvement> muscles;
 
   const Exercise({required this.id, required this.name, required this.muscles});
+
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'name': name,
+    'muscles': muscles.map((m) => m.toMap()).toList(),
+  };
+
+  factory Exercise.fromMap(Map<String, dynamic> map) => Exercise(
+    id: map['id'] as String,
+    name: map['name'] as String,
+    muscles: (map['muscles'] as List)
+        .map((m) => MuscleInvolvement.fromMap(m as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 final List<Exercise> sampleExercises = [
@@ -22,7 +44,10 @@ final List<Exercise> sampleExercises = [
     muscles: [
       MuscleInvolvement(muscle: 'pecho', role: MuscleRole.primary),
       MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary),
-      MuscleInvolvement(muscle: 'deltoide anterior', role: MuscleRole.secondary),
+      MuscleInvolvement(
+        muscle: 'deltoide anterior',
+        role: MuscleRole.secondary,
+      ),
     ],
   ),
   Exercise(
@@ -73,7 +98,10 @@ final List<Exercise> sampleExercises = [
     muscles: [
       MuscleInvolvement(muscle: 'dorsal', role: MuscleRole.primary),
       MuscleInvolvement(muscle: 'trapecio', role: MuscleRole.secondary),
-      MuscleInvolvement(muscle: 'deltoide posterior', role: MuscleRole.secondary),
+      MuscleInvolvement(
+        muscle: 'deltoide posterior',
+        role: MuscleRole.secondary,
+      ),
       MuscleInvolvement(muscle: 'bíceps', role: MuscleRole.secondary),
     ],
   ),
@@ -82,22 +110,21 @@ final List<Exercise> sampleExercises = [
     name: 'Aperturas',
     muscles: [
       MuscleInvolvement(muscle: 'pecho', role: MuscleRole.primary),
-      MuscleInvolvement(muscle: 'deltoide anterior', role: MuscleRole.secondary),
+      MuscleInvolvement(
+        muscle: 'deltoide anterior',
+        role: MuscleRole.secondary,
+      ),
     ],
   ),
   Exercise(
     id: 'extension-de-tricep-unilateral',
     name: 'Extensión de tríceps unilateral',
-    muscles: [
-      MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'extension-de-tricep',
     name: 'Extensión de tríceps',
-    muscles: [
-      MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'curl-declinado',
@@ -136,16 +163,12 @@ final List<Exercise> sampleExercises = [
   Exercise(
     id: 'extension-tricep-sobre-cabeza-unilateral',
     name: 'Extensión de tríceps sobre la cabeza unilateral',
-    muscles: [
-      MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'extension-tricep-sobre-cabeza',
     name: 'Extensión de tríceps sobre la cabeza',
-    muscles: [
-      MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'tríceps', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'jm-press',
@@ -158,23 +181,17 @@ final List<Exercise> sampleExercises = [
   Exercise(
     id: 'curl-de-muneca',
     name: 'Curl de muñeca',
-    muscles: [
-      MuscleInvolvement(muscle: 'antebrazo', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'antebrazo', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'aductores',
     name: 'Aductores',
-    muscles: [
-      MuscleInvolvement(muscle: 'aductores', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'aductores', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'curl-de-pierna',
     name: 'Curl de pierna',
-    muscles: [
-      MuscleInvolvement(muscle: 'femoral', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'femoral', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'extension-cuadriceps',
@@ -229,9 +246,7 @@ final List<Exercise> sampleExercises = [
   Exercise(
     id: 'crunch-abdominal',
     name: 'Crunch abdominal',
-    muscles: [
-      MuscleInvolvement(muscle: 'abdomen', role: MuscleRole.primary),
-    ],
+    muscles: [MuscleInvolvement(muscle: 'abdomen', role: MuscleRole.primary)],
   ),
   Exercise(
     id: 'front-lever',
@@ -239,7 +254,10 @@ final List<Exercise> sampleExercises = [
     muscles: [
       MuscleInvolvement(muscle: 'dorsal', role: MuscleRole.primary),
       MuscleInvolvement(muscle: 'abdomen', role: MuscleRole.primary),
-      MuscleInvolvement(muscle: 'deltoide posterior', role: MuscleRole.secondary),
+      MuscleInvolvement(
+        muscle: 'deltoide posterior',
+        role: MuscleRole.secondary,
+      ),
     ],
   ),
   Exercise(

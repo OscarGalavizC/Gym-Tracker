@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/data/exercise_repository.dart';
 import 'package:gym_tracker/data/session_repository.dart';
 import 'package:gym_tracker/models/models.dart';
 import 'package:gym_tracker/widgets/exercise_card.dart';
 
 class LogSessionScreen extends StatefulWidget {
-  final SessionRepository repository;
-  const LogSessionScreen({super.key, required this.repository});
+  final SessionRepository sessionRepository;
+  final ExerciseRepository exerciseRepository;
+  const LogSessionScreen({
+    super.key,
+    required this.sessionRepository,
+    required this.exerciseRepository,
+  });
 
   @override
   State<LogSessionScreen> createState() => _LogSessionScreenState();
@@ -13,6 +19,7 @@ class LogSessionScreen extends StatefulWidget {
 
 class _LogSessionScreenState extends State<LogSessionScreen> {
   final List<ExerciseDraft> _selectedExercises = [];
+  List<Exercise> get ejercicios => widget.exerciseRepository.getExercises();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
                 );
               }
 
-              await widget.repository.addSession(
+              await widget.sessionRepository.addSession(
                 Session(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   date: DateTime.now(),
@@ -51,19 +58,21 @@ class _LogSessionScreenState extends State<LogSessionScreen> {
           final ejercicio = await showModalBottomSheet<Exercise>(
             context: context,
             builder: (_) => ListView.builder(
-              itemCount: sampleExercises.length,
+              itemCount: ejercicios.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(sampleExercises[index].name),
+                  title: Text(ejercicios[index].name),
                   onTap: () {
-                    Navigator.pop(context, sampleExercises[index]);
+                    Navigator.pop(context, ejercicios[index]);
                   },
                 );
               },
             ),
           );
           if (ejercicio != null) {
-            final lastLog = widget.repository.getLastPerformance(ejercicio.id);
+            final lastLog = widget.sessionRepository.getLastPerformance(
+              ejercicio.id,
+            );
             setState(() {
               _selectedExercises.add(
                 ExerciseDraft(exercise: ejercicio, lastLog: lastLog),

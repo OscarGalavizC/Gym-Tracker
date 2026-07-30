@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/data/exercise_repository.dart';
 import 'package:gym_tracker/data/session_repository.dart';
 import 'package:gym_tracker/screens/catalog_screen.dart';
 import 'package:gym_tracker/screens/home_screen.dart';
 import 'package:gym_tracker/screens/progress_screen.dart';
 
 class RootNavScreen extends StatefulWidget {
-  final SessionRepository _repository;
-  const RootNavScreen({super.key, required this._repository});
-  
+  final SessionRepository _sessionRepository;
+  final ExerciseRepository _exerciseRepository;
+  const RootNavScreen({
+    super.key,
+    required this._sessionRepository,
+    required this._exerciseRepository,
+  });
+
   @override
   State<RootNavScreen> createState() => _RootNavScreenState();
 }
@@ -16,7 +22,8 @@ class _RootNavScreenState extends State<RootNavScreen> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final repository = widget._repository;
+    final sessionRepository = widget._sessionRepository;
+    final exerciseRepository = widget._exerciseRepository;
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -25,7 +32,7 @@ class _RootNavScreenState extends State<RootNavScreen> {
           });
         },
         selectedIndex: _selectedIndex,
-        destinations: const<Widget>[
+        destinations: const <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
@@ -44,10 +51,13 @@ class _RootNavScreenState extends State<RootNavScreen> {
         ],
       ),
       body: <Widget>[
-        HomeScreen(repository: repository),
-        CatalogScreen(),
+        HomeScreen(
+          sessionRepository: sessionRepository,
+          exerciseRepository: exerciseRepository,
+        ),
+        CatalogScreen(exerciseRepository: exerciseRepository),
         ProgressScreen(),
-      ][_selectedIndex]
+      ][_selectedIndex],
     );
   }
 }
